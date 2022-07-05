@@ -3,6 +3,7 @@ from openpyxl import Workbook, load_workbook
 import datetime
 import random
 import numpy as np
+from dateutil import relativedelta
 
 import openpyxl
 
@@ -15,7 +16,9 @@ result = Workbook()
 
 data_ws = data["Project Details"]
 project_ids = data_ws["A"][1:]
+project_ids = [i.value for i in project_ids]
 project_budgets = data_ws["L"][1:]
+project_budgets = [i.value for i in project_budgets]
 
 # Budget
 if True:
@@ -29,7 +32,7 @@ if True:
     i = 0
     for row in result_ws.iter_rows(min_row=2, max_row=len(project_ids) + 1, max_col=6):
         # Project IDs
-        row[0].value = project_ids[i].value
+        row[0].value = project_ids[i]
 
         # Start Date
         row[1].style = date_style
@@ -45,15 +48,15 @@ if True:
 
         # Cost per Month
         row[3].style = "Currency"
-        row[3].value = project_budgets[i].value / row[2].value
+        row[3].value = project_budgets[i] / row[2].value
 
         # Total Cost
         row[4].style = "Currency"
-        row[4].value = project_budgets[i].value
+        row[4].value = project_budgets[i]
 
         # Contract Pay
         row[5].style = "Currency"
-        row[5].value = project_budgets[i].value * random.randint(1020, 1080)/1000
+        row[5].value = project_budgets[i] * random.randint(1020, 1080)/1000
 
         i += 1
 
@@ -91,19 +94,59 @@ if True:
     budgets = [i.value for i in budgets]
     result_ws = result["Categories"]
     i2 = 0
-    i4 = 1
+    i4 = 0
     for i in project_ids:
-        n, k = budgets[i2], len(categories) + 1
+        n, k = budgets[i2], len(categories)
         vals = np.random.default_rng().dirichlet(np.ones(k), size=1)
         k_nums = [round(v) for v in vals[0]*n]
         i3 = 0
         for category in categories:
-            result_ws.append([i.value, category, k_nums[i3]])
-            print(f"C{i4 + 1}")
+            result_ws.append([i, category, k_nums[i3]])
             result_ws[f"C{i4 + 1}"].style = "Currency"
             i3 += 1
             i4 += 1
         i2 += 1
+
+# Cash Outflow
+if True:
+    result.create_sheet("Cash Outflow")
+    result_ws = result["Cash Outflow"]
+
+    # Headers
+    result_ws.append(["Project ID", "Month", "Category", "Amount"])
+
+    start_dates = result["Budget"]["B"][1:]
+    start_dates = [i.value for i in start_dates]
+    duration = result["Budget"]["C"][1:]
+    duration = [i.value for i in duration]
+    budgets_by_cat = result["Categories"]["C"][1:]
+    budgets_by_cat = [i.value for i in budgets_by_cat]
+
+    i5 = 0
+    i2 = 0
+    for i in project_ids:
+        months_completed = random.randrange(6, duration[i2])
+        for i3 in range(months_completed):
+            i4 = 0
+            for category in categories:
+                the_date = start_dates[i2]
+                the_date += relativedelta.relativedelta(months=i3)
+                result_ws.append([i, the_date, category, budgets_by_cat[i4]/duration[i2]*(random.randint(900, 1100)/1000)])
+                result_ws[f"D{i5 + 1}"].style = "Currency"
+                i4 += 1
+                i5 += 1
+        i2 += 1
+
+# Reports
+if False:
+    result.create_sheet("Reports")
+    result_ws = result["Reports"]
+
+    # Headers
+    result_ws.append(["Project ID", "Report Date", "Completion", "Incurred Cost"])
+
+    for i in project_ids:
+        result_ws.append([i])
 
 data.close()
 result.save("./Output/Result.xlsx")
