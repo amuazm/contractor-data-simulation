@@ -94,17 +94,17 @@ if True:
     budgets = [i.value for i in budgets]
     result_ws = result["Categories"]
     i2 = 0
-    i4 = 0
+    i4 = 1
     for i in project_ids:
         n, k = budgets[i2], len(categories)
         vals = np.random.default_rng().dirichlet(np.ones(k), size=1)
         k_nums = [round(v) for v in vals[0]*n]
         i3 = 0
         for category in categories:
-            result_ws.append([i, category, k_nums[i3]])
-            result_ws[f"C{i4 + 1}"].style = "Currency"
-            i3 += 1
             i4 += 1
+            result_ws.append([i, category, k_nums[i3]])
+            result_ws[f"C{i4}"].style = "Currency"
+            i3 += 1
         i2 += 1
 
 # Cash Outflow
@@ -122,19 +122,19 @@ if True:
     budgets_by_cat = result["Categories"]["C"][1:]
     budgets_by_cat = [i.value for i in budgets_by_cat]
 
-    i5 = 0
     i2 = 0
+    i5 = 1
     for i in project_ids:
         months_completed = random.randrange(6, duration[i2])
         for i3 in range(months_completed):
             i4 = 0
             for category in categories:
+                i5 += 1
                 the_date = start_dates[i2]
                 the_date += relativedelta.relativedelta(months=i3)
                 result_ws.append([i, the_date, category, budgets_by_cat[i4]/duration[i2]*(random.randint(900, 1100)/1000)])
-                result_ws[f"D{i5 + 1}"].style = "Currency"
+                result_ws[f"D{i5}"].style = "Currency"
                 i4 += 1
-                i5 += 1
         i2 += 1
 
 # Reports
