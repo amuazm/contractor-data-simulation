@@ -6,8 +6,6 @@ import numpy as np
 from dateutil import relativedelta
 import collections
 
-import openpyxl
-
 src = "./Budget Dataset Modified.xlsx"
 dest = "./Output/Backup.xlsx"
 shutil.copyfile(src, dest)
@@ -230,6 +228,22 @@ if True:
     for cell in result_ws["C"]:
         cell.style = "Currency"
 
+
+# Project Details
+if True:
+    result_wb.create_sheet("Project Details", 0)
+    result_ws = result_wb["Project Details"]
+
+    l = []
+    for row in data_ws.iter_rows():
+        l2 = []
+        for cell in row:
+            l2.append(cell.value)
+        l.append(l2)
+    for i in l:
+        result_ws.append(i)
+    for cell in result_ws["L"]:
+        cell.style = "Currency"
 
 data.close()
 result_wb.save("./Output/Result.xlsx")
