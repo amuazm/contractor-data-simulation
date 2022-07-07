@@ -29,14 +29,14 @@ if True:
     # Headers
     result_ws.append(["Project ID", "Start Date", "Duration (Months)", "Cost per Month", "Total Cost", "Contract Pay"])
 
-    date_style = openpyxl.styles.NamedStyle(name="date_style", number_format="dd/mm/yyyy")
+    # date_style = openpyxl.styles.NamedStyle(name="date_style", number_format="dd/mm/yyyy")
     i = 0
     for row in result_ws.iter_rows(min_row=2, max_row=len(project_ids) + 1, max_col=6):
         # Project IDs
         row[0].value = project_ids[i]
 
         # Start Date
-        row[1].style = date_style
+        # row[1].style = date_style
         # start = datetime.datetime.strptime("01/01/2020", "%d/%m/%Y").date()
         # start date will be in between 2 years before (min duration is 2 years) and 6 months before (need 6-24 months of data)
         start = datetime.date.today() - datetime.timedelta(days=365*2)
@@ -183,6 +183,9 @@ if True:
         result_ws[f"C{bruh}"] = value
         bruh += 1
 
+    for cell in result_ws["C"]:
+        cell.style = "Percent"
+
 # Cash Inflow
 if True:
     result_wb.copy_worksheet(result_wb["Reports"])
@@ -218,8 +221,14 @@ if True:
     result_wb.create_sheet("Cash Inflow")
     result_ws = result_wb["Cash Inflow"]
 
+    # Headers
+    result_ws.append(["Project ID", "Date", "Amount"])
+
     for i in values:
         result_ws.append(i)
+
+    for cell in result_ws["C"]:
+        cell.style = "Currency"
 
 
 data.close()
