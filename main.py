@@ -116,7 +116,7 @@ if True:
     result_ws = result_wb["Cash Outflow"]
 
     # Headers
-    result_ws.append(["Project ID", "Month", "Category", "Amount"])
+    result_ws.append(["Project ID", "Date", "Category", "Amount"])
 
     start_dates = result_wb["Budget"]["B"][1:]
     start_dates = [i.value for i in start_dates]
@@ -156,7 +156,7 @@ if True:
     result_wb.remove(result_ws)
     result_wb.create_sheet("Reports")
     result_ws = result_wb["Reports"]
-    result_ws.append(["Project ID", "Month", "Completion"])
+    result_ws.append(["Project ID", "Date", "Completion"])
 
     for value in values:
         result_ws.append(value)
