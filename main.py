@@ -169,10 +169,12 @@ if True:
     l = []
     i2 = 0
     for i in duration:
-        percentage = journey[i2]/i*(random.randint(80, 120)/100)
+        # i = Planned duration of project (Duration (Months)), journey[i2] = Months passed by
+        random_variance = random.randint(80, 120)/100
+        percentage = journey[i2]/i*random_variance
         accumulative = 0
         for i3 in range(journey[i2]):
-            accumulative += percentage/i
+            accumulative += percentage/journey[i2]
             l.append(accumulative)
         i2 += 1
 
