@@ -174,7 +174,13 @@ if True:
         percentage = journey[i2]/i*random_variance
         accumulative = 0
         for i3 in range(journey[i2]):
-            accumulative += percentage/journey[i2]
+            final_percentage = percentage/journey[i2]
+            # For some epic sauce
+            final_percentage *= random_variance
+            accumulative += final_percentage
+            # Make sure it does not go above 100%
+            if accumulative > 1:
+                accumulative = 1
             l.append(accumulative)
         i2 += 1
 
