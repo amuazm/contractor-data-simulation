@@ -25,7 +25,7 @@ if True:
     result_ws.title = "Budget"
 
     # Headers
-    result_ws.append(["Project ID", "Start Date", "Duration (Months)", "Cost per Month", "Total Cost", "Contract Pay"])
+    result_ws.append(["Project ID", "Start Date", "Duration (Months)", "Budgeted Cost per Month", "Overall Budget", "Projected Income"])
 
     # date_style = openpyxl.styles.NamedStyle(name="date_style", number_format="dd/mm/yyyy")
     i = 0
@@ -67,7 +67,7 @@ if True:
     result_ws = result_wb["Categories"]
 
     #Headers
-    result_ws.append(["Project ID", "Category", "Budget"])
+    result_ws.append(["Project ID", "Category", "Category Budget"])
 
     categories = [
         'Direct Labour',
@@ -114,7 +114,7 @@ if True:
     result_ws = result_wb["Cash Outflow"]
 
     # Headers
-    result_ws.append(["Project ID", "Date", "Category", "Amount"])
+    result_ws.append(["Project ID", "Date", "Category", "Actual Monthly Cost"])
 
     start_dates = result_wb["Budget"]["B"][1:]
     start_dates = [i.value for i in start_dates]
