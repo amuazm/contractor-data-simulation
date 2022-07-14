@@ -169,11 +169,11 @@ if True:
     l = []
     i2 = 0
     for i in duration:
-        percentage = 100/i*journey[i2]*random.randint(80, 120)/100
+        percentage = journey[i2]/i*(random.randint(80, 120)/100)
         accumulative = 0
         for i3 in range(journey[i2]):
             accumulative += percentage/i
-            l.append(accumulative / 100)
+            l.append(accumulative)
         i2 += 1
 
     bruh = 2
