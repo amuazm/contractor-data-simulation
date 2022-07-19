@@ -255,5 +255,16 @@ if True:
     for cell in result_ws["L"]:
         cell.style = "Currency"
 
+# Change status
+if True:
+    statuses_to_replace_with = ["Planning", "Planned", "Execution", "Finishing", "Finished"]
+    result_ws = result_wb["Project Details"]
+
+    statuses = result_ws["D"][1:]
+
+    for i in statuses:
+        random_swag_number = random.randrange(5)
+        i.value = statuses_to_replace_with[random_swag_number]
+
 data.close()
 result_wb.save("./Output/Result.xlsx")
