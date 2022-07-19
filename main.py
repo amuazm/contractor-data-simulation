@@ -154,7 +154,7 @@ if True:
     result_wb.remove(result_ws)
     result_wb.create_sheet("Reports")
     result_ws = result_wb["Reports"]
-    result_ws.append(["Project ID", "Date", "Completion", "Incurred Cost"])
+    result_ws.append(["Project ID", "Date", "Completion", "Incurred Cost", "BCWS"])
 
     for value in values:
         result_ws.append(value)
@@ -166,10 +166,12 @@ if True:
     journey = journey.values()
     journey = list(journey)
 
+    secret_tool_for_later = []
     l = []
     i2 = 0
     for i in duration:
         # i = Planned duration of project (Duration (Months)), journey[i2] = Months passed by
+        secret_tool_for_later.append(journey[i2])
         random_variance = random.randint(80, 120)/100
         percentage = journey[i2]/i*random_variance
         accumulative = 0
@@ -230,6 +232,22 @@ if True:
     i = 0
     for cell in awesomesauce:
         cell.value = l4[i]
+        cell.style = "Currency"
+        i += 1
+
+    # BCWS
+    monthly_costs = result_wb["Budget"]["D"][1:]
+    monthly_costs = [i.value for i in monthly_costs]
+    l = []
+    i3 = 0
+    for i in secret_tool_for_later:
+        for i2 in range(i):
+            l.append((i2 + 1) * monthly_costs[i3])
+        i3 += 1
+    awesomesauce = result_ws["E"][1:]
+    i = 0
+    for cell in awesomesauce:
+        cell.value = l[i]
         cell.style = "Currency"
         i += 1
 
@@ -305,6 +323,7 @@ if True:
         random_swag_number = random.randrange(5)
         i.value = statuses_to_replace_with[random_swag_number]
 
+# Regions
 if True:
     regions = [
     "North-East",
