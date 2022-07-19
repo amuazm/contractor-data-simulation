@@ -289,7 +289,54 @@ if True:
         random_swag_number = random.randrange(5)
         i.value = statuses_to_replace_with[random_swag_number]
 
+if True:
+    regions = [
+    "North-East",
+    "North-East",
+    "Central",
+    "West",
+    "West",
+    "West",
+    "Central",
+    "Central",
+    "West",
+    "Central",
+    "North",
+    "East",
+    "West",
+    "West",
+    "West",
+    "Central",
+    "Central",
+    "North-East",
+    "West",
+    "West",
+    "Central",
+    "North",
+    "North",
+    "Central",
+    "Central",
+    "Central",
+    "Central",
+    "North-East",
+    "North-East",
+    "Central",
+    "Central",
+    "Central",
+    "East",
+    "East",
+    "East"
+    ]
+    result_ws = result_wb["Project Details"]
+    result_ws.insert_cols(4)
 
+    region_col = result_ws["D"]
+    region_col[0].value = "Regions"
+    region_col = region_col[1:]
+    i = 0
+    for cell in region_col:
+        cell.value = regions[i]
+        i += 1
 
 data.close()
 result_wb.save("./Output/Result.xlsx")
