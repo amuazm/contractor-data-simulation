@@ -205,15 +205,31 @@ if True:
         else:
             the_things_i_want[the_pog_champ] += row[3].value
 
-    l_lmao = []
+    l = []
+    l2 = []
+    current_project = ""
     for k in the_things_i_want:
-        l_lmao.append(the_things_i_want[k])
+        if current_project != k[:11]:
+            current_project = k[:11]
+            l.append(l2)
+            l2 = []
+        l2.append(the_things_i_want[k])
+    l.append(l2)
+    
+    l3 = []
+    for i in l:
+        l3.append(list(np.cumsum(i)))
+    
+    l4 = []
+    for i in l3:
+        for i2 in i:
+            l4.append(i2)
     
     result_ws = result_wb["Reports"]
     awesomesauce = result_ws["D"][1:]
     i = 0
     for cell in awesomesauce:
-        cell.value = l_lmao[i]
+        cell.value = l4[i]
         cell.style = "Currency"
         i += 1
 
