@@ -114,7 +114,7 @@ if True:
     result_ws = result_wb["Cash Outflow"]
 
     # Headers
-    result_ws.append(["Project ID", "Date", "Category", "Actual Monthly Cost"])
+    result_ws.append(["Project ID", "Date", "Category", "Actual Category Monthly Cost"])
 
     start_dates = result_wb["Budget"]["B"][1:]
     start_dates = [i.value for i in start_dates]
@@ -154,7 +154,7 @@ if True:
     result_wb.remove(result_ws)
     result_wb.create_sheet("Reports")
     result_ws = result_wb["Reports"]
-    result_ws.append(["Project ID", "Date", "Completion"])
+    result_ws.append(["Project ID", "Date", "Completion", "Incurred Cost"])
 
     for value in values:
         result_ws.append(value)
@@ -193,6 +193,29 @@ if True:
 
     for cell in result_ws["C"]:
         cell.style = "Percent"
+
+    # Incurred Cost oh my goodness gracious
+    result_ws = result_wb["Cash Outflow"]
+    count = 0
+    the_things_i_want = {}
+    for row in result_ws.iter_rows(min_row=2):
+        the_pog_champ = f"{row[0].value}-{row[1].value}"
+        if the_pog_champ not in the_things_i_want:
+            the_things_i_want[the_pog_champ] = row[3].value
+        else:
+            the_things_i_want[the_pog_champ] += row[3].value
+
+    l_lmao = []
+    for k in the_things_i_want:
+        l_lmao.append(the_things_i_want[k])
+    
+    result_ws = result_wb["Reports"]
+    awesomesauce = result_ws["D"][1:]
+    i = 0
+    for cell in awesomesauce:
+        cell.value = l_lmao[i]
+        cell.style = "Currency"
+        i += 1
 
 # Cash Inflow
 if True:
@@ -265,6 +288,8 @@ if True:
     for i in statuses:
         random_swag_number = random.randrange(5)
         i.value = statuses_to_replace_with[random_swag_number]
+
+
 
 data.close()
 result_wb.save("./Output/Result.xlsx")
