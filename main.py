@@ -230,7 +230,7 @@ if True:
     result_ws = result_wb["Cash Inflow"]
 
     # Headers
-    result_ws.append(["Project ID", "Date", "Amount"])
+    result_ws.append(["Project ID", "Date", "Income"])
 
     for i in values:
         result_ws.append(i)
